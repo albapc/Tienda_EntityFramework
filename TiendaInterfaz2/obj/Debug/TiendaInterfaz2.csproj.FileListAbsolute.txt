@@ -1,0 +1,10 @@
+c:\users\alba.perezcesar\documents\visual studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz2\bin\Debug\TiendaInterfaz2.exe.config
+c:\users\alba.perezcesar\documents\visual studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz2\bin\Debug\TiendaInterfaz2.exe
+c:\users\alba.perezcesar\documents\visual studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz2\bin\Debug\TiendaInterfaz2.pdb
+c:\users\alba.perezcesar\documents\visual studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz2\bin\Debug\EntityFramework.dll
+c:\users\alba.perezcesar\documents\visual studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz2\bin\Debug\EntityFramework.SqlServer.dll
+c:\users\alba.perezcesar\documents\visual studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz2\bin\Debug\EntityFramework.xml
+c:\users\alba.perezcesar\documents\visual studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz2\bin\Debug\EntityFramework.SqlServer.xml
+c:\users\alba.perezcesar\documents\visual studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz2\obj\Debug\TiendaInterfaz2.csprojResolveAssemblyReference.cache
+c:\users\alba.perezcesar\documents\visual studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz2\obj\Debug\TiendaInterfaz2.exe
+c:\users\alba.perezcesar\documents\visual studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz2\obj\Debug\TiendaInterfaz2.pdb
