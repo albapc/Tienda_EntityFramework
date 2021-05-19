@@ -11,10 +11,12 @@ namespace TiendaInterfaz2
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
     
     public partial class TICKETDETALLE
     {
         public int TicketDetalleId { get; set; }
+        [ForeignKey("TicketId")]
         public Nullable<int> TicketId { get; set; }
         public Nullable<int> ProductoId { get; set; }
         public Nullable<decimal> Descuento { get; set; }

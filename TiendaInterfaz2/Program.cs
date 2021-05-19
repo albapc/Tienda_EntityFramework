@@ -70,7 +70,8 @@ namespace TiendaInterfaz2
                         Console.WriteLine(Metodos.selectProducts(query));
                         break;
                     case 6:
-                        File.WriteAllText("prueba.txt", Metodos.selectProducts(query));
+                        Metodos.insertTicket(query, 5);
+                        //File.WriteAllText("prueba.txt", Metodos.selectProducts(query));
                         break;
                     default:
                         Console.WriteLine("Saliendo...");

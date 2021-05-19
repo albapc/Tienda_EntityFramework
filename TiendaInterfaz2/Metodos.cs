@@ -9,6 +9,8 @@ namespace TiendaInterfaz2
     class Metodos
     {
 
+        private static int id;
+
         public static void insertMarca(int codigo, string descripcion)
         {
             using (var context = new TIENDADBEntities())
@@ -60,6 +62,44 @@ namespace TiendaInterfaz2
             }
         }
 
+        public static async void insertTicket(List<PRODUCTO> query, int descuento)
+        {
+            using (var context = new TIENDADBEntities())
+            {
+                // decimal? resta = query.Sum(i => i.Precio)-descuento;
+                foreach (var product in query)
+                {
+                    var ticket = new TICKET()
+                    {
+                        Fecha = DateTime.Now,
+                        Subtotal = product.Precio,
+                        Descuento = descuento,  
+                        Importe = product.Precio,
+                        CantidadProductos = product.Stock
+
+                    };
+                   context.TICKETs.Add(ticket);
+                   await context.SaveChangesAsync();
+
+                    var ticketDetail = new TICKETDETALLE()
+                    {
+                        TicketId = ticket.TicketId,
+                        ProductoId = product.ProductoId,
+                        Descuento = descuento,
+                        Importe = product.Precio,
+                        CantidadProductos = product.Stock
+
+                    };
+                    context.TICKETDETALLEs.Add(ticketDetail);
+                    await context.SaveChangesAsync();
+                }
+                
+
+                context.SaveChanges();
+            }
+        }
+
+
         public static string selectProducts(List<PRODUCTO> query)
         {
             string text = "";
@@ -86,12 +126,14 @@ namespace TiendaInterfaz2
             decimal precio;
             var context = new TIENDADBEntities();
             var query = context.PRODUCTOes.ToList();
+            var sum = context.PRODUCTOes;
             switch (opcion)
             {
                 case 1:
                     Console.WriteLine("Introducir productoId: ");
                     codigo = Int32.Parse(Console.ReadLine());
                     query = context.PRODUCTOes.Where(s => s.ProductoId == codigo).ToList();
+
                     break;
                 case 2:
                     Console.WriteLine("Introducir MarcaId: ");
@@ -127,6 +169,7 @@ namespace TiendaInterfaz2
                     Console.WriteLine("Input no valido");
                     break;
             }
+
             return query;
         }
     }
