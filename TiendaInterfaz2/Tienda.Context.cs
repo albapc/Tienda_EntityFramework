@@ -19,6 +19,11 @@ namespace TiendaInterfaz2
             : base("name=TIENDADBEntities")
         {
         }
+
+        public TIENDADBEntities(string server)
+            : base("metadata=res://*/Tienda.csdl|res://*/Tienda.ssdl|res://*/Tienda.msl;provider=System.Data.SqlClient;provider connection string='data source=" + server + ",1433;initial catalog=TIENDADB;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework'")
+{
+}
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

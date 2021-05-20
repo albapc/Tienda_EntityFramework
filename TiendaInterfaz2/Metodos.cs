@@ -13,7 +13,7 @@ namespace TiendaInterfaz2
 
         public static void insertMarca(int codigo, string descripcion)
         {
-            using (var context = new TIENDADBEntities())
+            using (var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS"))
             {
                 var marca = new MARCA()
                 {
@@ -28,7 +28,7 @@ namespace TiendaInterfaz2
 
         public static void insertTipoProducto(int codigo, string nombre)
         {
-            using (var context = new TIENDADBEntities())
+            using (var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS"))
             {
                 var tipoProducto = new TIPOPRODUCTO()
                 {
@@ -43,7 +43,7 @@ namespace TiendaInterfaz2
 
         public static void insertProducto(int marcaId, int tipoProductoId, string descripcion, string talle, string color, string precio, int stock)
         {
-            using (var context = new TIENDADBEntities())
+            using (var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS"))
             {
                 var producto = new PRODUCTO()
                 {
@@ -64,7 +64,7 @@ namespace TiendaInterfaz2
 
         public static async void insertTicket(List<PRODUCTO> query, int descuento)
         {
-            using (var context = new TIENDADBEntities())
+            using (var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS"))
             {
                 // decimal? resta = query.Sum(i => i.Precio)-descuento;
                 foreach (var product in query)
@@ -103,7 +103,7 @@ namespace TiendaInterfaz2
         public static string selectProducts(List<PRODUCTO> query)
         {
             string text = "";
-            using (var context = new TIENDADBEntities())
+            using (var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS"))
             {
 
                 foreach (var product in query)
@@ -124,7 +124,7 @@ namespace TiendaInterfaz2
             int codigo;
             string descripcion = "";
             decimal precio;
-            var context = new TIENDADBEntities();
+            var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS");
             var query = context.PRODUCTOes.ToList();
             var sum = context.PRODUCTOes;
             switch (opcion)

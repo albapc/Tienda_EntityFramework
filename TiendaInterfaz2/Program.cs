@@ -19,7 +19,7 @@ namespace TiendaInterfaz2
 
             int codigo;
             string descripcion = "";
-            var context = new TIENDADBEntities();
+            var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS");
             var query = context.PRODUCTOes.ToList();
 
             while (true)
