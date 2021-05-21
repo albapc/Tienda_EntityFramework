@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Configuration;
 
 namespace TiendaInterfaz2
 {
@@ -14,7 +15,7 @@ namespace TiendaInterfaz2
         {
 
             int codigo;
-            var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS");
+            var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]);
             var query = context.PRODUCTOes.ToList();
 
             while (true)

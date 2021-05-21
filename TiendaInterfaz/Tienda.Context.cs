@@ -20,8 +20,8 @@ namespace TiendaInterfaz
         {
         }
 
-        public TIENDADBEntities(string server)
-            : base("metadata=res://*/Tienda.csdl|res://*/Tienda.ssdl|res://*/Tienda.msl;provider=System.Data.SqlClient;provider connection string='data source=" + server + ",1433;initial catalog=TIENDADB;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework'")
+        public TIENDADBEntities(string server, string database)
+            : base("metadata=res://*/Tienda.csdl|res://*/Tienda.ssdl|res://*/Tienda.msl;provider=System.Data.SqlClient;provider connection string='data source=" + server + ",1433;initial catalog=" + database + ";integrated security=True;MultipleActiveResultSets=True;App=EntityFramework'")
         {
         }
 

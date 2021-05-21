@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using System.Configuration;
 
 namespace TiendaInterfaz
 {
@@ -16,7 +17,7 @@ namespace TiendaInterfaz
 
         private void insertMarca(object sender, RoutedEventArgs e)
         {
-            using (var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS"))
+            using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
             {
                 var marca = new MARCA()
                 {
@@ -32,7 +33,7 @@ namespace TiendaInterfaz
 
         private void insertTipoProducto(object sender, RoutedEventArgs e)
         {
-            using (var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS"))
+            using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
             {
                 var tipoProducto = new TIPOPRODUCTO()
                 {
@@ -48,7 +49,7 @@ namespace TiendaInterfaz
 
         private void insertProducto(object sender, RoutedEventArgs e)
         {
-            using (var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS"))
+            using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
             {
                 var producto = new PRODUCTO()
                 {
@@ -70,7 +71,7 @@ namespace TiendaInterfaz
 
         private void selectProducts(object sender, RoutedEventArgs e)
         {
-            using (var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS"))
+            using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
             {
                 var query = context.PRODUCTOes.ToList();
 
@@ -80,7 +81,7 @@ namespace TiendaInterfaz
 
         private void filterProducts(object sender, RoutedEventArgs e)
         {
-            var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS");
+            var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]);
             var query = context.PRODUCTOes.ToList();
 
             switch (comboBox1.Text)
@@ -116,7 +117,7 @@ namespace TiendaInterfaz
 
         public async void insertTicket(object sender, RoutedEventArgs e)
         {
-            using (var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS"))
+            using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
             {
                 decimal? total = 0;
                 if (datag.SelectedItems.Count > 0)

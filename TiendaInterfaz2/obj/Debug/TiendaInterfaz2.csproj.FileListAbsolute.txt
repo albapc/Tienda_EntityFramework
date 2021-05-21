@@ -10,3 +10,4 @@ c:\users\alba.perezcesar\documents\visual studio 2013\Projects\TiendaInterfaz2\T
 C:\Users\alba.perezcesar\Documents\Visual Studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz2\obj\Debug\TiendaInterfaz2.csprojAssemblyReference.cache
 C:\Users\alba.perezcesar\Documents\Visual Studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz2\obj\Debug\TiendaInterfaz2.csproj.CoreCompileInputs.cache
 C:\Users\alba.perezcesar\Documents\Visual Studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz2\obj\Debug\TiendaInterfaz2.csproj.CopyComplete
+C:\Users\alba.perezcesar\Documents\Visual Studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz2\bin\Debug\App.config

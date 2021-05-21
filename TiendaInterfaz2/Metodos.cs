@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Configuration;
 
 namespace TiendaInterfaz2
 {
@@ -9,7 +10,7 @@ namespace TiendaInterfaz2
 
         public static void insertMarca(int codigo, string descripcion)
         {
-            using (var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS"))
+            using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
             {
                 var marca = new MARCA()
                 {
@@ -24,7 +25,7 @@ namespace TiendaInterfaz2
 
         public static void insertTipoProducto(int codigo, string nombre)
         {
-            using (var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS"))
+            using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
             {
                 var tipoProducto = new TIPOPRODUCTO()
                 {
@@ -39,7 +40,7 @@ namespace TiendaInterfaz2
 
         public static void insertProducto(int marcaId, int tipoProductoId, string descripcion, string talle, string color, string precio, int stock)
         {
-            using (var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS"))
+            using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
             {
                 var producto = new PRODUCTO()
                 {
@@ -60,7 +61,7 @@ namespace TiendaInterfaz2
 
         public static async void insertTicket(List<PRODUCTO> query, int descuento)
         {
-            using (var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS"))
+            using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
             {
                 foreach (var product in query)
                 {
@@ -96,7 +97,7 @@ namespace TiendaInterfaz2
         public static string selectProducts(List<PRODUCTO> query)
         {
             string text = "";
-            using (var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS"))
+            using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
             {
 
                 foreach (var product in query)
@@ -116,7 +117,7 @@ namespace TiendaInterfaz2
             int codigo;
             string descripcion = "";
             decimal precio;
-            var context = new TIENDADBEntities(@"PLX00135100911\SQLEXPRESS");
+            var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]);
             var query = context.PRODUCTOes.ToList();
             var sum = context.PRODUCTOes;
             switch (opcion)
