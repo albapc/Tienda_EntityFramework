@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TIENDADBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="MARCA">
+          <Key>
+            <PropertyRef Name="MarcaId" />
+          </Key>
+          <Property Name="MarcaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo" Type="int" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="ProductoId" />
+          </Key>
+          <Property Name="ProductoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MarcaId" Type="int" />
+          <Property Name="TipoProductoId" Type="int" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="Talle" Type="varchar" MaxLength="20" />
+          <Property Name="Color" Type="varchar" MaxLength="20" />
+          <Property Name="Precio" Type="money" />
+          <Property Name="Stock" Type="int" />
+        </EntityType>
+        <EntityType Name="TICKET">
+          <Key>
+            <PropertyRef Name="TicketId" />
+          </Key>
+          <Property Name="TicketId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="Subtotal" Type="money" />
+          <Property Name="Descuento" Type="money" />
+          <Property Name="Importe" Type="money" />
+          <Property Name="CantidadProductos" Type="int" />
+        </EntityType>
+        <EntityType Name="TICKETDETALLE">
+          <Key>
+            <PropertyRef Name="TicketDetalleId" />
+          </Key>
+          <Property Name="TicketDetalleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TicketId" Type="int" />
+          <Property Name="ProductoId" Type="int" />
+          <Property Name="Descuento" Type="money" />
+          <Property Name="Importe" Type="money" />
+          <Property Name="CantidadProductos" Type="int" />
+        </EntityType>
+        <EntityType Name="TIPOPRODUCTO">
+          <Key>
+            <PropertyRef Name="TipoProductoId" />
+          </Key>
+          <Property Name="TipoProductoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo" Type="int" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__PRODUCTO__MarcaI__3B75D760">
+          <End Role="MARCA" Type="Self.MARCA" Multiplicity="0..1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MARCA">
+              <PropertyRef Name="MarcaId" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="MarcaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PRODUCTO__TipoPr__3C69FB99">
+          <End Role="TIPOPRODUCTO" Type="Self.TIPOPRODUCTO" Multiplicity="0..1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPOPRODUCTO">
+              <PropertyRef Name="TipoProductoId" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="TipoProductoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TICKETDET__Produ__4222D4EF">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="0..1" />
+          <End Role="TICKETDETALLE" Type="Self.TICKETDETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="ProductoId" />
+            </Principal>
+            <Dependent Role="TICKETDETALLE">
+              <PropertyRef Name="ProductoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TICKETDET__Ticke__412EB0B6">
+          <End Role="TICKET" Type="Self.TICKET" Multiplicity="0..1" />
+          <End Role="TICKETDETALLE" Type="Self.TICKETDETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TICKET">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="TICKETDETALLE">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TIENDADBModelStoreContainer">
+          <EntitySet Name="MARCA" EntityType="Self.MARCA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TICKET" EntityType="Self.TICKET" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TICKETDETALLE" EntityType="Self.TICKETDETALLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TIPOPRODUCTO" EntityType="Self.TIPOPRODUCTO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__PRODUCTO__MarcaI__3B75D760" Association="Self.FK__PRODUCTO__MarcaI__3B75D760">
+            <End Role="MARCA" EntitySet="MARCA" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PRODUCTO__TipoPr__3C69FB99" Association="Self.FK__PRODUCTO__TipoPr__3C69FB99">
+            <End Role="TIPOPRODUCTO" EntitySet="TIPOPRODUCTO" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TICKETDET__Produ__4222D4EF" Association="Self.FK__TICKETDET__Produ__4222D4EF">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="TICKETDETALLE" EntitySet="TICKETDETALLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TICKETDET__Ticke__412EB0B6" Association="Self.FK__TICKETDET__Ticke__412EB0B6">
+            <End Role="TICKET" EntitySet="TICKET" />
+            <End Role="TICKETDETALLE" EntitySet="TICKETDETALLE" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TIENDADBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="MARCA">
+          <Key>
+            <PropertyRef Name="MarcaId" />
+          </Key>
+          <Property Name="MarcaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="Int32" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PRODUCTOes" Relationship="Self.FK__PRODUCTO__MarcaI__3B75D760" FromRole="MARCA" ToRole="PRODUCTO" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="ProductoId" />
+          </Key>
+          <Property Name="ProductoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MarcaId" Type="Int32" />
+          <Property Name="TipoProductoId" Type="Int32" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Talle" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Color" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Precio" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Stock" Type="Int32" />
+          <NavigationProperty Name="MARCA" Relationship="Self.FK__PRODUCTO__MarcaI__3B75D760" FromRole="PRODUCTO" ToRole="MARCA" />
+          <NavigationProperty Name="TIPOPRODUCTO" Relationship="Self.FK__PRODUCTO__TipoPr__3C69FB99" FromRole="PRODUCTO" ToRole="TIPOPRODUCTO" />
+          <NavigationProperty Name="TICKETDETALLEs" Relationship="Self.FK__TICKETDET__Produ__4222D4EF" FromRole="PRODUCTO" ToRole="TICKETDETALLE" />
+        </EntityType>
+        <EntityType Name="TICKET">
+          <Key>
+            <PropertyRef Name="TicketId" />
+          </Key>
+          <Property Name="TicketId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="Subtotal" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Descuento" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Importe" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CantidadProductos" Type="Int32" />
+          <NavigationProperty Name="TICKETDETALLEs" Relationship="Self.FK__TICKETDET__Ticke__412EB0B6" FromRole="TICKET" ToRole="TICKETDETALLE" />
+        </EntityType>
+        <EntityType Name="TICKETDETALLE">
+          <Key>
+            <PropertyRef Name="TicketDetalleId" />
+          </Key>
+          <Property Name="TicketDetalleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TicketId" Type="Int32" />
+          <Property Name="ProductoId" Type="Int32" />
+          <Property Name="Descuento" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Importe" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CantidadProductos" Type="Int32" />
+          <NavigationProperty Name="PRODUCTO" Relationship="Self.FK__TICKETDET__Produ__4222D4EF" FromRole="TICKETDETALLE" ToRole="PRODUCTO" />
+          <NavigationProperty Name="TICKET" Relationship="Self.FK__TICKETDET__Ticke__412EB0B6" FromRole="TICKETDETALLE" ToRole="TICKET" />
+        </EntityType>
+        <EntityType Name="TIPOPRODUCTO">
+          <Key>
+            <PropertyRef Name="TipoProductoId" />
+          </Key>
+          <Property Name="TipoProductoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="Int32" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PRODUCTOes" Relationship="Self.FK__PRODUCTO__TipoPr__3C69FB99" FromRole="TIPOPRODUCTO" ToRole="PRODUCTO" />
+        </EntityType>
+        <Association Name="FK__PRODUCTO__MarcaI__3B75D760">
+          <End Role="MARCA" Type="Self.MARCA" Multiplicity="0..1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MARCA">
+              <PropertyRef Name="MarcaId" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="MarcaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PRODUCTO__TipoPr__3C69FB99">
+          <End Role="TIPOPRODUCTO" Type="Self.TIPOPRODUCTO" Multiplicity="0..1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPOPRODUCTO">
+              <PropertyRef Name="TipoProductoId" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="TipoProductoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TICKETDET__Produ__4222D4EF">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="0..1" />
+          <End Role="TICKETDETALLE" Type="Self.TICKETDETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="ProductoId" />
+            </Principal>
+            <Dependent Role="TICKETDETALLE">
+              <PropertyRef Name="ProductoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TICKETDET__Ticke__412EB0B6">
+          <End Role="TICKET" Type="Self.TICKET" Multiplicity="0..1" />
+          <End Role="TICKETDETALLE" Type="Self.TICKETDETALLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TICKET">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="TICKETDETALLE">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TIENDADBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MARCAs" EntityType="Self.MARCA" />
+          <EntitySet Name="PRODUCTOes" EntityType="Self.PRODUCTO" />
+          <EntitySet Name="TICKETs" EntityType="Self.TICKET" />
+          <EntitySet Name="TICKETDETALLEs" EntityType="Self.TICKETDETALLE" />
+          <EntitySet Name="TIPOPRODUCTOes" EntityType="Self.TIPOPRODUCTO" />
+          <AssociationSet Name="FK__PRODUCTO__MarcaI__3B75D760" Association="Self.FK__PRODUCTO__MarcaI__3B75D760">
+            <End Role="MARCA" EntitySet="MARCAs" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTOes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PRODUCTO__TipoPr__3C69FB99" Association="Self.FK__PRODUCTO__TipoPr__3C69FB99">
+            <End Role="TIPOPRODUCTO" EntitySet="TIPOPRODUCTOes" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTOes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TICKETDET__Produ__4222D4EF" Association="Self.FK__TICKETDET__Produ__4222D4EF">
+            <End Role="PRODUCTO" EntitySet="PRODUCTOes" />
+            <End Role="TICKETDETALLE" EntitySet="TICKETDETALLEs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TICKETDET__Ticke__412EB0B6" Association="Self.FK__TICKETDET__Ticke__412EB0B6">
+            <End Role="TICKET" EntitySet="TICKETs" />
+            <End Role="TICKETDETALLE" EntitySet="TICKETDETALLEs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TIENDADBModelStoreContainer" CdmEntityContainer="TIENDADBEntities">
+          <EntitySetMapping Name="MARCAs">
+            <EntityTypeMapping TypeName="TIENDADBModel.MARCA">
+              <MappingFragment StoreEntitySet="MARCA">
+                <ScalarProperty Name="MarcaId" ColumnName="MarcaId" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTOes">
+            <EntityTypeMapping TypeName="TIENDADBModel.PRODUCTO">
+              <MappingFragment StoreEntitySet="PRODUCTO">
+                <ScalarProperty Name="ProductoId" ColumnName="ProductoId" />
+                <ScalarProperty Name="MarcaId" ColumnName="MarcaId" />
+                <ScalarProperty Name="TipoProductoId" ColumnName="TipoProductoId" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Talle" ColumnName="Talle" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TICKETs">
+            <EntityTypeMapping TypeName="TIENDADBModel.TICKET">
+              <MappingFragment StoreEntitySet="TICKET">
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="Importe" ColumnName="Importe" />
+                <ScalarProperty Name="CantidadProductos" ColumnName="CantidadProductos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TICKETDETALLEs">
+            <EntityTypeMapping TypeName="TIENDADBModel.TICKETDETALLE">
+              <MappingFragment StoreEntitySet="TICKETDETALLE">
+                <ScalarProperty Name="TicketDetalleId" ColumnName="TicketDetalleId" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="ProductoId" ColumnName="ProductoId" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="Importe" ColumnName="Importe" />
+                <ScalarProperty Name="CantidadProductos" ColumnName="CantidadProductos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIPOPRODUCTOes">
+            <EntityTypeMapping TypeName="TIENDADBModel.TIPOPRODUCTO">
+              <MappingFragment StoreEntitySet="TIPOPRODUCTO">
+                <ScalarProperty Name="TipoProductoId" ColumnName="TipoProductoId" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
