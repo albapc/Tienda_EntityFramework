@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Configuration;
+using log4net;
 
 namespace TiendaInterfaz
 {
@@ -10,8 +11,10 @@ namespace TiendaInterfaz
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static readonly ILog log = Logs.GetLogger();
         public MainWindow()
         {
+            log4net.Config.XmlConfigurator.Configure(); // hace falta para generar el archivo de log
             InitializeComponent();
         }
 
@@ -28,6 +31,7 @@ namespace TiendaInterfaz
 
                 context.SaveChanges();
             }
+            log.Debug("Marca " + CodigoMarca.Text + " con descripción: " + DescripcionMarca.Text + " insertada correctamente");
             MessageBox.Show("Marca " + CodigoMarca.Text + " con descripción: " + DescripcionMarca.Text + "\nInsertada correctamente");
         }
 
@@ -44,6 +48,7 @@ namespace TiendaInterfaz
 
                 context.SaveChanges();
             }
+            log.Debug("Tipo de producto " + CodigoTipoProducto.Text + " con nombre: " + NombreTipoProducto.Text + " insertado correctamente");
             MessageBox.Show("Tipo de producto " + CodigoTipoProducto.Text + " con nombre: " + NombreTipoProducto.Text + "\nInsertado correctamente");
         }
 
@@ -66,6 +71,7 @@ namespace TiendaInterfaz
 
                 context.SaveChanges();
             }
+            log.Debug("Producto con descripcion: " + DescripcionProducto.Text + " insertado correctamente");
             MessageBox.Show("Producto con descripcion: " + DescripcionProducto.Text + "\nInsertado correctamente");
         }
 
@@ -77,6 +83,7 @@ namespace TiendaInterfaz
 
                 datag.ItemsSource = query;
             }
+            log.Info("Mostrando todos los productos...");
         }
 
         private void filterProducts(object sender, RoutedEventArgs e)
@@ -108,11 +115,17 @@ namespace TiendaInterfaz
                     query = context.PRODUCTOes.AsEnumerable().Where(s => s.Stock == int.Parse(tbProducto.Text)).ToList();
                     break;
                 default:
-                    Console.WriteLine("Input no valido. Mostrando todos los resultados por defecto...");
+                    log.Warn("Input no valido. Mostrando todos los resultados por defecto...");
                     break;
             }
 
             datag.ItemsSource = query;
+
+            if (!string.IsNullOrEmpty(comboBox1.Text))
+            {
+                log.Info("Mostrando productos con " + comboBox1.Text + " " + tbProducto.Text);
+            }
+            
         }
 
         public async void insertTicket(object sender, RoutedEventArgs e)
@@ -168,6 +181,7 @@ namespace TiendaInterfaz
                 }
             }
             MessageBox.Show("Ticket creado correctamente");
+            log.Debug("Ticket creado correctamente");
         }
     }
 }

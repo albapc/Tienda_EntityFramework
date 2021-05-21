@@ -19,3 +19,6 @@ C:\Users\alba.perezcesar\Documents\Visual Studio 2013\Projects\TiendaInterfaz2\T
 C:\Users\alba.perezcesar\Documents\Visual Studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz\obj\Debug\TiendaInterfaz.csproj.CoreCompileInputs.cache
 C:\Users\alba.perezcesar\Documents\Visual Studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz\obj\Debug\TiendaInterfaz.csproj.CopyComplete
 C:\Users\alba.perezcesar\Documents\Visual Studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz\bin\Debug\App.config
+C:\Users\alba.perezcesar\Documents\Visual Studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz\bin\Debug\log4net.dll
+C:\Users\alba.perezcesar\Documents\Visual Studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz\bin\Debug\log4net.xml
+C:\Users\alba.perezcesar\Documents\Visual Studio 2013\Projects\TiendaInterfaz2\TiendaInterfaz\bin\Debug\log4net.config
