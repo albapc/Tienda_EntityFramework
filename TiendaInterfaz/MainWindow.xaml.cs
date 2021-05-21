@@ -166,6 +166,7 @@ namespace TiendaInterfaz
                     context.SaveChanges();
                 }
             }
+            MessageBox.Show("Ticket creado correctamente");
         }
     }
 }
