@@ -47,10 +47,9 @@
                     </ComboBoxItem>
                 </ComboBox>
                 <TextBox x:Name="ColorProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="364,159,0,0" Grid.Column="1"/>
-                <TextBox x:Name="PrecioProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="364,181,0,0" Grid.Column="1"/>
+                <TextBox x:Name="PrecioProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="364,181,0,0" Grid.Column="1" TextChanged="PrecioProducto_txtChanged"/>
                 <TextBox x:Name="StockProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="364,203,0,0" PreviewTextInput="NumberValidationTextBox" Grid.Column="1"/>
                 <Button Content="Insertar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="327,243,0,0" Click="InsertProducto" Grid.Column="1"/>
-                <TextBox Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="23" Margin="62,206,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
             </Grid>
         </TabItem>
         <TabItem Header="Consultar productos">

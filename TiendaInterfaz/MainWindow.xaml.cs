@@ -24,12 +24,37 @@ namespace TiendaInterfaz
             var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]);
             comboBoxMarcaId.ItemsSource = context.MARCAs.Select(l => l.MarcaId).ToList();
             comboBoxTipoProductoId.ItemsSource = context.TIPOPRODUCTOes.Select(l => l.TipoProductoId).ToList();
+            PrecioProducto.TextChanged += PrecioProducto_txtChanged;
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
+
+        }
+
+        private void PrecioProducto_txtChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            bool isValid = IsFloatNumber();
+            e.Handled = isValid;
+            string s = PrecioProducto.Text;
+
+
+            if(!isValid && s.Length > 1)
+            {
+                s = s.Substring(0, s.Length - 1); //si el ultimo caracter introducido no es un numero o una coma/punto, lo elimina
+            }
+            PrecioProducto.Text = s;
+            PrecioProducto.SelectionStart = PrecioProducto.Text.Length; //sitúa el cursor al final del texto introducido
+        }
+
+        private bool IsFloatNumber()
+        {
+            if (!(float.TryParse(PrecioProducto.Text, out _)))
+                return false;
+            else
+                return true;
         }
 
         private void InsertMarca(object sender, RoutedEventArgs e)
@@ -44,17 +69,32 @@ namespace TiendaInterfaz
             {
                 using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
                 {
-                    var marca = new MARCA()
-                    {
-                        Codigo = int.Parse(CodigoMarca.Text),
-                        Descripcion = DescripcionMarca.Text
-                    };
-                    context.MARCAs.Add(marca);
+                    var codigoMarcaExists = context.MARCAs.AsEnumerable().Where(s => s.Codigo == int.Parse(CodigoMarca.Text)).ToList();
 
-                    context.SaveChanges();
+                    if (codigoMarcaExists.Count < 1)
+                    {
+                        var marca = new MARCA()
+                        {
+                            Codigo = int.Parse(CodigoMarca.Text),
+                            Descripcion = DescripcionMarca.Text
+                        };
+                        context.MARCAs.Add(marca);
+
+                        context.SaveChanges();
+
+                        log.Debug("Marca " + CodigoMarca.Text + " con descripción: " + DescripcionMarca.Text + " insertada correctamente");
+                        MessageBox.Show("Marca " + CodigoMarca.Text + " con descripción: " + DescripcionMarca.Text + "\nInsertada correctamente");
+                        
+                    }
+                    else
+                    {
+                        log.Warn("La marca " + CodigoMarca.Text + " con descripción: " + DescripcionMarca.Text + " ya existe");
+                        MessageBox.Show("La marca " + CodigoMarca.Text + " con descripción: " + DescripcionMarca.Text + " ya existe");
+                    }
+                    CodigoMarca.Clear();
+                    DescripcionMarca.Clear();
                 }
-                log.Debug("Marca " + CodigoMarca.Text + " con descripción: " + DescripcionMarca.Text + " insertada correctamente");
-                MessageBox.Show("Marca " + CodigoMarca.Text + " con descripción: " + DescripcionMarca.Text + "\nInsertada correctamente");
+                
              }
             catch (FormatException fe)
             {
@@ -79,17 +119,31 @@ namespace TiendaInterfaz
             {
                 using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
                 {
-                    var tipoProducto = new TIPOPRODUCTO()
-                    {
-                        Codigo = int.Parse(CodigoTipoProducto.Text),
-                        Nombre = NombreTipoProducto.Text
-                    };
-                    context.TIPOPRODUCTOes.Add(tipoProducto);
+                    var codigoTipoProductoExists = context.TIPOPRODUCTOes.AsEnumerable().Where(s => s.Codigo == int.Parse(CodigoTipoProducto.Text)).ToList();
 
-                    context.SaveChanges();
+                    if (codigoTipoProductoExists.Count < 1)
+                    {
+                        var tipoProducto = new TIPOPRODUCTO()
+                        {
+                            Codigo = int.Parse(CodigoTipoProducto.Text),
+                            Nombre = NombreTipoProducto.Text
+                        };
+                        context.TIPOPRODUCTOes.Add(tipoProducto);
+
+                        context.SaveChanges();
+
+                        log.Debug("Tipo de producto " + CodigoTipoProducto.Text + " con nombre: " + NombreTipoProducto.Text + " insertado correctamente");
+                        MessageBox.Show("Tipo de producto " + CodigoTipoProducto.Text + " con nombre: " + NombreTipoProducto.Text + "\nInsertado correctamente");
+                    }
+                    else
+                    {
+                        log.Warn("El tipo de producto " + CodigoTipoProducto.Text + " con nombre: " + NombreTipoProducto.Text + " ya existe");
+                        MessageBox.Show("El tipo de producto " + CodigoTipoProducto.Text + " con nombre: " + NombreTipoProducto.Text + "\nYa existe");
+                    }
+                    CodigoTipoProducto.Clear();
+                    NombreTipoProducto.Clear();
                 }
-                log.Debug("Tipo de producto " + CodigoTipoProducto.Text + " con nombre: " + NombreTipoProducto.Text + " insertado correctamente");
-                MessageBox.Show("Tipo de producto " + CodigoTipoProducto.Text + " con nombre: " + NombreTipoProducto.Text + "\nInsertado correctamente");
+                
             }
             catch (FormatException fe)
             {
@@ -170,6 +224,10 @@ namespace TiendaInterfaz
                     break;
                 case "TipoProductoId":
                     query = context.PRODUCTOes.AsEnumerable().Where(s => s.TipoProductoId == int.Parse(tbProducto.Text)).ToList();
+                    break;
+                case "Descripcion":
+                    //query = context.PRODUCTOes.Where(s => s.Descripcion == tbProducto.Text).ToList();
+                    query = context.PRODUCTOes.Where(s => tbProducto.Text.Contains(s.Descripcion)).ToList();
                     break;
                 case "Talle":
                     query = context.PRODUCTOes.Where(s => s.Talle == tbProducto.Text).ToList();
