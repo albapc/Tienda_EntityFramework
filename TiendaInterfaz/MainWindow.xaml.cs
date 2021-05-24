@@ -3,79 +3,148 @@ using System.Linq;
 using System.Windows;
 using System.Configuration;
 using log4net;
+using System.Text.RegularExpressions;
+using System.Windows.Input;
 
 namespace TiendaInterfaz
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml: Window
     /// </summary>
+    /// 
+
     public partial class MainWindow : Window
     {
         private static readonly ILog log = Logs.GetLogger();
+
         public MainWindow()
         {
             log4net.Config.XmlConfigurator.Configure(); // hace falta para generar el archivo de log
             InitializeComponent();
+            var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]);
+            comboBoxMarcaId.ItemsSource = context.MARCAs.Select(l => l.MarcaId).ToList();
+            comboBoxTipoProductoId.ItemsSource = context.TIPOPRODUCTOes.Select(l => l.TipoProductoId).ToList();
         }
 
-        private void insertMarca(object sender, RoutedEventArgs e)
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
-            using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
-            {
-                var marca = new MARCA()
-                {
-                    Codigo = int.Parse(CodigoMarca.Text),
-                    Descripcion = DescripcionMarca.Text
-                };
-                context.MARCAs.Add(marca);
-
-                context.SaveChanges();
-            }
-            log.Debug("Marca " + CodigoMarca.Text + " con descripción: " + DescripcionMarca.Text + " insertada correctamente");
-            MessageBox.Show("Marca " + CodigoMarca.Text + " con descripción: " + DescripcionMarca.Text + "\nInsertada correctamente");
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void insertTipoProducto(object sender, RoutedEventArgs e)
+        private void InsertMarca(object sender, RoutedEventArgs e)
         {
-            using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
+            if (CodigoMarca.Text.Trim() == string.Empty || DescripcionMarca.Text.Trim() == string.Empty)
             {
-                var tipoProducto = new TIPOPRODUCTO()
-                {
-                    Codigo = int.Parse(CodigoTipoProducto.Text),
-                    Nombre = NombreTipoProducto.Text
-                };
-                context.TIPOPRODUCTOes.Add(tipoProducto);
-
-                context.SaveChanges();
+                MessageBox.Show("Por favor, introducir datos en ambos campos");
+                CodigoMarca.Focus();
+                return;
             }
-            log.Debug("Tipo de producto " + CodigoTipoProducto.Text + " con nombre: " + NombreTipoProducto.Text + " insertado correctamente");
-            MessageBox.Show("Tipo de producto " + CodigoTipoProducto.Text + " con nombre: " + NombreTipoProducto.Text + "\nInsertado correctamente");
+            try
+            {
+                using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
+                {
+                    var marca = new MARCA()
+                    {
+                        Codigo = int.Parse(CodigoMarca.Text),
+                        Descripcion = DescripcionMarca.Text
+                    };
+                    context.MARCAs.Add(marca);
+
+                    context.SaveChanges();
+                }
+                log.Debug("Marca " + CodigoMarca.Text + " con descripción: " + DescripcionMarca.Text + " insertada correctamente");
+                MessageBox.Show("Marca " + CodigoMarca.Text + " con descripción: " + DescripcionMarca.Text + "\nInsertada correctamente");
+             }
+            catch (FormatException fe)
+            {
+                log.Error(fe);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+
         }
 
-        private void insertProducto(object sender, RoutedEventArgs e)
+        private void InsertTipoProducto(object sender, RoutedEventArgs e)
         {
-            using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
+            if (CodigoTipoProducto.Text.Trim() == string.Empty || NombreTipoProducto.Text.Trim() == string.Empty)
             {
-                var producto = new PRODUCTO()
-                {
-                    MarcaId = int.Parse(MarcaIdProducto.Text),
-                    TipoProductoId = int.Parse(TipoProductoIdProducto.Text),
-                    Descripcion = DescripcionProducto.Text,
-                    Talle = TalleProducto.Text,
-                    Color = ColorProducto.Text,
-                    Precio = decimal.Parse(PrecioProducto.Text),
-                    Stock = int.Parse(StockProducto.Text)
-
-                };
-                context.PRODUCTOes.Add(producto);
-
-                context.SaveChanges();
+                MessageBox.Show("Por favor, introducir datos en ambos campos");
+                return; // return because we don't want System.Windows.ode of button click
             }
-            log.Debug("Producto con descripcion: " + DescripcionProducto.Text + " insertado correctamente");
-            MessageBox.Show("Producto con descripcion: " + DescripcionProducto.Text + "\nInsertado correctamente");
+
+            try
+            {
+                using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
+                {
+                    var tipoProducto = new TIPOPRODUCTO()
+                    {
+                        Codigo = int.Parse(CodigoTipoProducto.Text),
+                        Nombre = NombreTipoProducto.Text
+                    };
+                    context.TIPOPRODUCTOes.Add(tipoProducto);
+
+                    context.SaveChanges();
+                }
+                log.Debug("Tipo de producto " + CodigoTipoProducto.Text + " con nombre: " + NombreTipoProducto.Text + " insertado correctamente");
+                MessageBox.Show("Tipo de producto " + CodigoTipoProducto.Text + " con nombre: " + NombreTipoProducto.Text + "\nInsertado correctamente");
+            }
+            catch (FormatException fe)
+            {
+                log.Error(fe);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
-        private void selectProducts(object sender, RoutedEventArgs e)
+        private void InsertProducto(object sender, RoutedEventArgs e)
+        {
+            if (comboBoxMarcaId.Text.Trim() == string.Empty || comboBoxTipoProductoId.Text.Trim() == string.Empty || DescripcionProducto.Text.Trim() == string.Empty
+                      || comboBoxTalle.Text.Trim() == string.Empty || ColorProducto.Text.Trim() == string.Empty || PrecioProducto.Text.Trim() == string.Empty
+                      || StockProducto.Text.Trim() == string.Empty)
+            {
+                MessageBox.Show("Por favor, introducir datos en todos los campos");
+                return; // return because we don't wSystem.Windows.al code of button click
+            }
+
+            try
+            {
+                using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
+                {
+                    var producto = new PRODUCTO()
+                    {
+                        MarcaId = int.Parse(comboBoxMarcaId.Text),
+                        TipoProductoId = int.Parse(comboBoxTipoProductoId.Text),
+                        Descripcion = DescripcionProducto.Text,
+                        Talle = comboBoxTalle.Text,
+                        Color = ColorProducto.Text,
+                        Precio = decimal.Parse(PrecioProducto.Text),
+                        Stock = int.Parse(StockProducto.Text)
+
+                    };
+                    context.PRODUCTOes.Add(producto);
+
+                    context.SaveChanges();
+                }
+                log.Debug("Producto con descripcion: " + DescripcionProducto.Text + " insertado correctamente");
+                MessageBox.Show("Producto con descripcion: " + DescripcionProducto.Text + "\nInsertado correctamente");
+            }
+            catch (FormatException fe)
+            {
+                log.Error(fe);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+
+
+        private void SelectProducts(object sender, RoutedEventArgs e)
         {
             using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
             {
@@ -86,7 +155,7 @@ namespace TiendaInterfaz
             log.Info("Mostrando todos los productos...");
         }
 
-        private void filterProducts(object sender, RoutedEventArgs e)
+        private void FilterProducts(object sender, RoutedEventArgs e)
         {
             var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]);
             var query = context.PRODUCTOes.ToList();
@@ -125,10 +194,11 @@ namespace TiendaInterfaz
             {
                 log.Info("Mostrando productos con " + comboBox1.Text + " " + tbProducto.Text);
             }
-            
+
+
         }
 
-        public async void insertTicket(object sender, RoutedEventArgs e)
+        public async void InsertTicket(object sender, RoutedEventArgs e)
         {
             using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
             {
@@ -178,10 +248,17 @@ namespace TiendaInterfaz
                         await context.SaveChangesAsync();
                     }
                     context.SaveChanges();
+                    MessageBox.Show("Ticket creado correctamente");
+                    log.Debug("Ticket creado correctamente");
                 }
+                else
+                {
+                    MessageBox.Show("No hay ningún producto seleccionado para crear ticket. Cancelando...");
+                    log.Warn("NSystem.Windows.rear un ticket ya que no hay ningún producto seleccionado. Cancelando...");
+                }
+                }
+
             }
-            MessageBox.Show("Ticket creado correctamente");
-            log.Debug("Ticket creado correctamente");
         }
+
     }
-}

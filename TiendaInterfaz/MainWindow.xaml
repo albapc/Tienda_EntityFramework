@@ -5,39 +5,57 @@
     <TabControl>
         <TabItem Header="Insertar datos">
             <Grid Background="#FFE5E5E5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="79*"/>
+                    <ColumnDefinition Width="240*"/>
+                </Grid.ColumnDefinitions>
                 <Label x:Name="lMarca" Content="Marca" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35"/>
-                <Label x:Name="lTipoProducto" Content="TipoProducto" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35" RenderTransformOrigin="1.914,0.667" Margin="167,0,0,0"/>
-                <Label x:Name="lProducto" Content="Producto" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35" RenderTransformOrigin="1.914,0.667" Margin="441,0,0,0"/>
+                <Label x:Name="lTipoProducto" Content="TipoProducto" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35" RenderTransformOrigin="1.914,0.667" Margin="9,0,0,0" Grid.Column="1"/>
+                <Label x:Name="lProducto" Content="Producto" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35" RenderTransformOrigin="1.914,0.667" Margin="283,0,0,0" Grid.Column="1"/>
                 <Label Content="Codigo:" HorizontalAlignment="Left" Margin="0,72,0,0" VerticalAlignment="Top"/>
                 <Label Content="Descripcion:" HorizontalAlignment="Left" Margin="0,113,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="CodigoMarca" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="79,76,0,0"/>
-                <TextBox x:Name="DescripcionMarca" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="79,113,0,0"/>
-                <Button Content="Insertar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="30,157,0,0" Click="insertMarca"/>
-                <Label Content="Codigo:" HorizontalAlignment="Left" Margin="200,72,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="CodigoTipoProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="277,76,0,0"/>
-                <Label Content="Nombre:" HorizontalAlignment="Left" Margin="200,113,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="NombreTipoProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="277,113,0,0"/>
-                <Button Content="Insertar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="241,157,0,0" Click="insertTipoProducto"/>
-                <Label Content="MarcaId:" HorizontalAlignment="Left" Margin="416,72,0,0" VerticalAlignment="Top"/>
-                <Label Content="TipoProductoId:" HorizontalAlignment="Left" Margin="416,98,0,0" VerticalAlignment="Top"/>
-                <Label Content="Descripcion:" HorizontalAlignment="Left" Margin="416,120,0,0" VerticalAlignment="Top"/>
-                <Label Content="Talle:" HorizontalAlignment="Left" Margin="416,139,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.528,0.385"/>
-                <Label Content="Color:" HorizontalAlignment="Left" Margin="416,159,0,0" VerticalAlignment="Top"/>
-                <Label Content="Precio:" HorizontalAlignment="Left" Margin="416,180,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.511,-0.077"/>
-                <Label Content="Stock:" HorizontalAlignment="Left" Margin="416,199,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="MarcaIdProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="522,76,0,0"/>
-                <TextBox x:Name="TipoProductoIdProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="522,98,0,0"/>
-                <TextBox x:Name="DescripcionProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="522,120,0,0"/>
-                <TextBox x:Name="TalleProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="522,139,0,0"/>
-                <TextBox x:Name="ColorProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="522,159,0,0"/>
-                <TextBox x:Name="PrecioProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="522,181,0,0"/>
-                <TextBox x:Name="StockProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="522,203,0,0"/>
-                <Button Content="Insertar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="485,243,0,0" Click="insertProducto"/>
+                <TextBox x:Name="CodigoMarca" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="79,76,0,0" PreviewTextInput="NumberValidationTextBox" Grid.ColumnSpan="2"/>
+                <TextBox x:Name="DescripcionMarca" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="79,113,0,0" Grid.ColumnSpan="2"/>
+                <Button Content="Insertar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="30,157,0,0" Click="InsertMarca"/>
+                <Label Content="Codigo:" HorizontalAlignment="Left" Margin="42,72,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                <TextBox x:Name="CodigoTipoProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="119,76,0,0" PreviewTextInput="NumberValidationTextBox" Grid.Column="1"/>
+                <Label Content="Nombre:" HorizontalAlignment="Left" Margin="42,113,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                <TextBox x:Name="NombreTipoProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="119,113,0,0" Grid.Column="1"/>
+                <Button Content="Insertar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="83,157,0,0" Click="InsertTipoProducto" Grid.Column="1"/>
+                <Label Content="MarcaId:" HorizontalAlignment="Left" Margin="258,72,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                <Label Content="TipoProductoId:" HorizontalAlignment="Left" Margin="258,98,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                <Label Content="Descripcion:" HorizontalAlignment="Left" Margin="258,120,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                <Label Content="Talle:" HorizontalAlignment="Left" Margin="258,139,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.528,0.385" Grid.Column="1"/>
+                <Label Content="Color:" HorizontalAlignment="Left" Margin="258,159,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                <Label Content="Precio:" HorizontalAlignment="Left" Margin="258,180,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.511,-0.077" Grid.Column="1"/>
+                <Label Content="Stock:" HorizontalAlignment="Left" Margin="258,199,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                <ComboBox x:Name="comboBoxMarcaId" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="93" Margin="364,76,0,0" Grid.Column="1"/>
+                <ComboBox x:Name="comboBoxTipoProductoId" HorizontalAlignment="Left" Height="22" Text="" VerticalAlignment="Top" Width="93" Margin="364,98,0,0" Grid.Column="1"/>
+                <TextBox x:Name="DescripcionProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="364,120,0,0" Grid.Column="1"/>
+                <ComboBox x:Name="comboBoxTalle" HorizontalAlignment="Left" Height="22" Text="" VerticalAlignment="Top" Width="93" Margin="364,139,0,0" Grid.Column="1">
+                    <ComboBoxItem>
+                        <TextBlock>S</TextBlock>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock>M</TextBlock>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock>L</TextBlock>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock>XL</TextBlock>
+                    </ComboBoxItem>
+                </ComboBox>
+                <TextBox x:Name="ColorProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="364,159,0,0" Grid.Column="1"/>
+                <TextBox x:Name="PrecioProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="364,181,0,0" Grid.Column="1"/>
+                <TextBox x:Name="StockProducto" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Margin="364,203,0,0" PreviewTextInput="NumberValidationTextBox" Grid.Column="1"/>
+                <Button Content="Insertar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="327,243,0,0" Click="InsertProducto" Grid.Column="1"/>
+                <TextBox Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="23" Margin="62,206,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
             </Grid>
         </TabItem>
         <TabItem Header="Consultar productos">
             <Canvas>
-                <Button Content="Listar todos los productos" HorizontalAlignment="Left" VerticalAlignment="Top" Width="161" Height="22" Canvas.Left="456" Canvas.Top="238" Click="selectProducts"/>
+                <Button Content="Listar todos los productos" HorizontalAlignment="Left" VerticalAlignment="Top" Width="161" Height="22" Canvas.Left="456" Canvas.Top="238" Click="SelectProducts"/>
 
                 <Label Content="Buscar producto por:" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="362" Canvas.Top="10" RenderTransformOrigin="-0.025,0.154"/>
                 <ComboBox x:Name="comboBox1" Canvas.Left="497" Canvas.Top="14" Width="120">
@@ -67,8 +85,8 @@
                     </ComboBoxItem>
                 </ComboBox>
                 <TextBox x:Name="tbProducto" HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Canvas.Left="363" Canvas.Top="51"/>
-                <Button Content="Buscar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="26" Canvas.Left="497" Canvas.Top="51" Click="filterProducts"/>
-                <Button Content="Generar ticket" HorizontalAlignment="Left" VerticalAlignment="Top" Width="161" Height="22" Canvas.Left="262" Canvas.Top="238" Click="insertTicket"/>
+                <Button Content="Buscar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="26" Canvas.Left="497" Canvas.Top="51" Click="FilterProducts"/>
+                <Button Content="Generar ticket" HorizontalAlignment="Left" VerticalAlignment="Top" Width="161" Height="22" Canvas.Left="262" Canvas.Top="238" Click="InsertTicket"/>
                 <DataGrid x:Name="datag" Height="200" Width="340" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ProductoId" Binding="{Binding ProductoId}"/>
