@@ -227,7 +227,7 @@ namespace TiendaInterfaz
                     break;
                 case "Descripcion":
                     //query = context.PRODUCTOes.Where(s => s.Descripcion == tbProducto.Text).ToList();
-                    query = context.PRODUCTOes.Where(s => tbProducto.Text.Contains(s.Descripcion)).ToList();
+                    query = context.PRODUCTOes.Where(s => s.Descripcion.Contains(tbProducto.Text)).ToList();
                     break;
                 case "Talle":
                     query = context.PRODUCTOes.Where(s => s.Talle == tbProducto.Text).ToList();
