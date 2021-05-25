@@ -5,13 +5,13 @@ using System.Configuration;
 using log4net;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using System.Windows.Controls;
 
 namespace TiendaInterfaz
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml: Window
     /// </summary>
-    /// 
 
     public partial class MainWindow : Window
     {
@@ -31,15 +31,13 @@ namespace TiendaInterfaz
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
-
         }
 
-        private void PrecioProducto_txtChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void PrecioProducto_txtChanged(object sender, TextChangedEventArgs e)
         {
             bool isValid = IsFloatNumber();
             e.Handled = isValid;
             string s = PrecioProducto.Text;
-
 
             if(!isValid && s.Length > 1)
             {
@@ -59,12 +57,19 @@ namespace TiendaInterfaz
 
         private void InsertMarca(object sender, RoutedEventArgs e)
         {
-            if (CodigoMarca.Text.Trim() == string.Empty || DescripcionMarca.Text.Trim() == string.Empty)
+            var textBoxes = new TextBox[] { CodigoMarca, DescripcionMarca };
+
+            for (int i = 0; i < textBoxes.Length; i++)
             {
-                MessageBox.Show("Por favor, introducir datos en ambos campos");
-                CodigoMarca.Focus();
-                return;
+                if(textBoxes[i].Text == string.Empty)
+                {
+                    MessageBox.Show("Por favor, introducir datos en ambos campos");
+                    log.Warn("Por favor, introducir datos en ambos campos");
+                    textBoxes[i].Focus();
+                    return;
+                }
             }
+
             try
             {
                 using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
@@ -84,7 +89,6 @@ namespace TiendaInterfaz
 
                         log.Debug("Marca " + CodigoMarca.Text + " con descripción: " + DescripcionMarca.Text + " insertada correctamente");
                         MessageBox.Show("Marca " + CodigoMarca.Text + " con descripción: " + DescripcionMarca.Text + "\nInsertada correctamente");
-                        
                     }
                     else
                     {
@@ -94,7 +98,6 @@ namespace TiendaInterfaz
                     CodigoMarca.Clear();
                     DescripcionMarca.Clear();
                 }
-                
              }
             catch (FormatException fe)
             {
@@ -104,15 +107,21 @@ namespace TiendaInterfaz
             {
                 log.Error(ex);
             }
-
         }
 
         private void InsertTipoProducto(object sender, RoutedEventArgs e)
         {
-            if (CodigoTipoProducto.Text.Trim() == string.Empty || NombreTipoProducto.Text.Trim() == string.Empty)
+            var textBoxes = new TextBox[] { CodigoTipoProducto, NombreTipoProducto };
+
+            for (int i = 0; i < textBoxes.Length; i++)
             {
-                MessageBox.Show("Por favor, introducir datos en ambos campos");
-                return; // return because we don't want System.Windows.ode of button click
+                if (textBoxes[i].Text == string.Empty)
+                {
+                    MessageBox.Show("Por favor, introducir datos en ambos campos");
+                    log.Warn("Por favor, introducir datos en ambos campos");
+                    textBoxes[i].Focus();
+                    return;
+                }
             }
 
             try
@@ -143,7 +152,6 @@ namespace TiendaInterfaz
                     CodigoTipoProducto.Clear();
                     NombreTipoProducto.Clear();
                 }
-                
             }
             catch (FormatException fe)
             {
@@ -157,12 +165,25 @@ namespace TiendaInterfaz
 
         private void InsertProducto(object sender, RoutedEventArgs e)
         {
-            if (comboBoxMarcaId.Text.Trim() == string.Empty || comboBoxTipoProductoId.Text.Trim() == string.Empty || DescripcionProducto.Text.Trim() == string.Empty
-                      || comboBoxTalle.Text.Trim() == string.Empty || ColorProducto.Text.Trim() == string.Empty || PrecioProducto.Text.Trim() == string.Empty
-                      || StockProducto.Text.Trim() == string.Empty)
+            var textboxes = new TextBox[] { DescripcionProducto, ColorProducto, PrecioProducto, StockProducto };
+            var comboboxes = new ComboBox[] { comboBoxMarcaId, comboBoxTipoProductoId, comboBoxTalle };
+
+            for (int i = 0; i < textboxes.Length; i++)
+            {
+                if (textboxes[i].Text == string.Empty)
+                {
+                    MessageBox.Show("Por favor, introducir datos en todos los campos");
+                    log.Warn("Por favor, introducir datos en todos los campos");
+                    textboxes[i].Focus();
+                    return;
+                }
+            }
+
+            if (comboboxes.Any(cb => cb.Text == string.Empty))
             {
                 MessageBox.Show("Por favor, introducir datos en todos los campos");
-                return; // return because we don't wSystem.Windows.al code of button click
+                log.Warn("Por favor, introducir datos en todos los campos");
+                return;
             }
 
             try
@@ -181,11 +202,17 @@ namespace TiendaInterfaz
 
                     };
                     context.PRODUCTOes.Add(producto);
-
                     context.SaveChanges();
                 }
                 log.Debug("Producto con descripcion: " + DescripcionProducto.Text + " insertado correctamente");
                 MessageBox.Show("Producto con descripcion: " + DescripcionProducto.Text + "\nInsertado correctamente");
+                comboBoxMarcaId.Items.Clear();
+                comboBoxTipoProductoId.Items.Clear();
+                DescripcionProducto.Clear();
+                comboBoxTalle.Items.Clear();
+                ColorProducto.Clear();
+                PrecioProducto.Clear();
+                StockProducto.Clear();
             }
             catch (FormatException fe)
             {
@@ -197,13 +224,11 @@ namespace TiendaInterfaz
             }
         }
 
-
         private void SelectProducts(object sender, RoutedEventArgs e)
         {
             using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
             {
                 var query = context.PRODUCTOes.ToList();
-
                 datag.ItemsSource = query;
             }
             log.Info("Mostrando todos los productos...");
@@ -226,7 +251,6 @@ namespace TiendaInterfaz
                     query = context.PRODUCTOes.AsEnumerable().Where(s => s.TipoProductoId == int.Parse(tbProducto.Text)).ToList();
                     break;
                 case "Descripcion":
-                    //query = context.PRODUCTOes.Where(s => s.Descripcion == tbProducto.Text).ToList();
                     query = context.PRODUCTOes.Where(s => s.Descripcion.Contains(tbProducto.Text)).ToList();
                     break;
                 case "Talle":
@@ -252,71 +276,74 @@ namespace TiendaInterfaz
             {
                 log.Info("Mostrando productos con " + comboBox1.Text + " " + tbProducto.Text);
             }
-
-
         }
 
         public async void InsertTicket(object sender, RoutedEventArgs e)
         {
-            using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
+            try
             {
-                decimal? total = 0;
-                if (datag.SelectedItems.Count > 0)
+                using (var context = new TIENDADBEntities(ConfigurationManager.AppSettings["server"], ConfigurationManager.AppSettings["database"]))
                 {
-                    for (int i = 0; i < datag.SelectedItems.Count; i++)
+                    decimal? total = 0;
+                    if (datag.SelectedItems.Count > 0)
                     {
-                        PRODUCTO p = (PRODUCTO)datag.SelectedItems[i];
-                        total += p.Precio;
-                    }
+                        for (int i = 0; i < datag.SelectedItems.Count; i++)
+                        {
+                            PRODUCTO p = (PRODUCTO)datag.SelectedItems[i];
+                            total += p.Precio;
+                        }
 
-                    for (int i = 0; i < datag.SelectedItems.Count; i++)
+                        for (int i = 0; i < datag.SelectedItems.Count; i++)
+                        {
+                            PRODUCTO p = (PRODUCTO)datag.SelectedItems[i];
+                            //se generará un porcentaje aleatorio de descuento
+                            Random rd = new Random();
+                            int rand_desc = rd.Next(5, 70);
+
+                            Console.WriteLine(rand_desc);
+
+                            decimal descuento = (decimal)((rand_desc / (decimal)100f) * p.Precio); // es necesario pasar el 100 a float para que muestre los decimales en el resultado
+                            Console.WriteLine(descuento);
+
+                            var ticket = new TICKET()
+                            {
+                                Fecha = DateTime.Now,
+                                Subtotal = p.Precio,
+                                Descuento = descuento,
+                                Importe = total - descuento,
+                                CantidadProductos = datag.SelectedItems.Count
+
+                            };
+                            context.TICKETs.Add(ticket);
+                            await context.SaveChangesAsync();
+
+                            var ticketDetail = new TICKETDETALLE()
+                            {
+                                TicketId = ticket.TicketId,
+                                ProductoId = p.ProductoId,
+                                Descuento = descuento,
+                                Importe = total - descuento,
+                                CantidadProductos = datag.SelectedItems.Count
+
+                            };
+                            context.TICKETDETALLEs.Add(ticketDetail);
+                            await context.SaveChangesAsync();
+                        }
+                        context.SaveChanges();
+                        MessageBox.Show("Ticket creado correctamente");
+                        log.Debug("Ticket creado correctamente");
+                    }
+                    else
                     {
-                        PRODUCTO p = (PRODUCTO)datag.SelectedItems[i];
-                        //se generará un porcentaje aleatorio de descuento
-                        Random rd = new Random();
-                        int rand_desc = rd.Next(5, 70);
-
-                        Console.WriteLine(rand_desc);
-
-                        decimal descuento = (decimal)((rand_desc / (decimal)100f) * p.Precio); // es necesario pasar el 100 a float para que muestre los decimales en el resultado
-                        Console.WriteLine(descuento);
-
-                        var ticket = new TICKET()
-                        {
-                            Fecha = DateTime.Now,
-                            Subtotal = p.Precio,
-                            Descuento = descuento,
-                            Importe = total - descuento,
-                            CantidadProductos = datag.SelectedItems.Count
-
-                        };
-                        context.TICKETs.Add(ticket);
-                        await context.SaveChangesAsync();
-
-                        var ticketDetail = new TICKETDETALLE()
-                        {
-                            TicketId = ticket.TicketId,
-                            ProductoId = p.ProductoId,
-                            Descuento = descuento,
-                            Importe = total - descuento,
-                            CantidadProductos = datag.SelectedItems.Count
-
-                        };
-                        context.TICKETDETALLEs.Add(ticketDetail);
-                        await context.SaveChangesAsync();
+                        MessageBox.Show("No hay ningún producto seleccionado para crear ticket. Cancelando...");
+                        log.Warn("NSystem.Windows.rear un ticket ya que no hay ningún producto seleccionado. Cancelando...");
                     }
-                    context.SaveChanges();
-                    MessageBox.Show("Ticket creado correctamente");
-                    log.Debug("Ticket creado correctamente");
                 }
-                else
-                {
-                    MessageBox.Show("No hay ningún producto seleccionado para crear ticket. Cancelando...");
-                    log.Warn("NSystem.Windows.rear un ticket ya que no hay ningún producto seleccionado. Cancelando...");
-                }
-                }
-
             }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            } 
         }
-
     }
+}
